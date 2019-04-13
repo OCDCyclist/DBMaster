@@ -1,0 +1,21 @@
+{
+  "name": "datapump",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cors": "^2.8.5",
+    "dotenv": "^7.0.0",
+    "eslint": "^5.16.0",
+    "express": "^4.16.4",
+    "jest": "^24.7.1",
+    "linebyline": "^1.3.0",
+    "majestic": "^1.3.0"
+  }
+}
