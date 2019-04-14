@@ -1,9 +1,9 @@
 'use strict';
 
-const app = require('./src/app');
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
 }
+const app = require('./src/app');
 
 const port = process.env.PORT || 4000;
 const server = app.listen( port, () => {
