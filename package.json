@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
+    "bluebird": "^3.5.4",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
     "eslint": "^5.16.0",

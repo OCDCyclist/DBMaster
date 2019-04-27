@@ -17,7 +17,7 @@ const getFileLines = (filename, archiveName, thisArray) => {
         thisArray.push( JSON.parse(line) );
     })
     .on('error', e => {
-        console.log(e);
+        console.log(filename, e);
     })
     .on('close', e => {
         fs.rename(filename, archiveName, err =>{

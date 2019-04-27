@@ -10,8 +10,8 @@
 /build
 
 #log file
-/logs/*.json
-/logsArchive/*.json
+/data/logs/*.json
+/data/logsArchive/*.json
 
 # misc
 .DS_Store
