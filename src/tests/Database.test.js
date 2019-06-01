@@ -14,8 +14,6 @@ test('Database initial role as leader', () => {
     expect(actual.logFolder).toBe('d:\\logFolder');
     expect(actual.logFolderArchive).toBe('d:\\logFolderArchive');
     expect(actual.dbPath).toBe('d:\\dbPath');
-    expect(actual.count).toBe(0);
-    expect(actual.lastID).toBe(0);
     expect(actual.status).toBe('stopped');
 });
 
@@ -33,8 +31,6 @@ test('Database initial role as replica', () => {
     expect(actual.logFolder).toBe('d:\\logFolder');
     expect(actual.logFolderArchive).toBe('d:\\logFolderArchive');
     expect(actual.dbPath).toBe('d:\\dbPath');
-    expect(actual.count).toBe(0);
-    expect(actual.lastID).toBe(0);
     expect(actual.status).toBe('stopped');
 });
 
@@ -52,8 +48,6 @@ test('Database initial role as replica', () => {
     expect(actual.logFolder).toBe('d:\\logFolder');
     expect(actual.logFolderArchive).toBe('d:\\logFolderArchive');
     expect(actual.dbPath).toBe('d:\\dbPath');
-    expect(actual.count).toBe(0);
-    expect(actual.lastID).toBe(0);
     expect(actual.status).toBe('stopped');
 });
 

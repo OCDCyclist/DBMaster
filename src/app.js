@@ -3,7 +3,6 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-
 const app = express();
 const corsOptions = {
     origin: '*',
@@ -17,7 +16,7 @@ app.use( bodyParser.urlencoded({extended: false}) );
 app.use( express.json());
 
 app.get('/', (req, res) => {
-    res.status(200).send(`Hello from the the DB ${props.role}!  You have truely made an excellent connection.`);
+    res.status(200).send(`Hello from the the DB ${app.database.state.role}!  You have truely made an excellent connection.`);
 });
 
 app.get('/start', async (req, res) => {
@@ -33,7 +32,17 @@ app.get('/state', (req, res) => {
 });
 
 app.post('/add', (req, res) => {
-    res.status(200).send( app.database.Commit(req.body));
+    const dbState = app.database.getState();
+    if( dbState.status === 'stopped'){
+        res.status(401).send( `DB is not running.` );
+    }
+    else{
+        res.status(200).send( app.database.Commit(req.body));
+    }
+});
+
+app.get('/bumpArchive', (req, res) => {
+    res.status(200).send(app.database.BumpArchive());
 });
 
 app.get('/report', (req, res) => {
@@ -45,37 +54,40 @@ app.get('/errorlog', (req, res) => {
 });
 
 app.get('/pingReplicas', async (req, res) => {
-    const {role} = app.database.getState();
-    if( role === 'Leader'){
-        const obj = {
-            Leader: app.database.Report()
-        }
-        const replicas = await app.database.PingReplicas();
-        res.status(200).send(Object.assign( {}, obj, { Replicas: replicas}));
-    }
-    else{
-        res.status(200).send('This database is a replica.  Ping replicas from the leader.');
-    }
+    const replicas = await app.database.PingReplicas();
+    res.status(200).send(replicas);
 });
 
-app.get('/replicas/:replicaList', (req, res) => {
-    const {role} = app.database.getState();
-    if( role === 'Leader'){
-        res.status(200).send( app.database.setReplicas(req.params.replicaList));
-    }
-    else{
-        res.status(200).send( 'Set replicas on the Leader.');
-    }
+app.get('/startReplicas', async (req, res) => {
+    const replicas = await app.database.StartReplicas();
+    res.status(200).send(replicas);
+});
+
+app.get('/stopReplicas', async (req, res) => {
+    const replicas = await app.database.StopReplicas();
+    res.status(200).send(replicas);
+});
+
+app.get('/setReplicas/:replicaList', (req, res) => {
+    res.status(200).send( app.database.SetReplicas(req.params.replicaList.trim()));
+});
+
+app.get('/checkReplicaStatus/', async (req, res) => {
+    const result = await app.database.CheckReplicaStatus();
+    res.status(200).send( result );
+});
+
+app.get('/catchupReplica/:replica', async (req, res) => {
+    const result = await app.database.CatchupReplica(req.params.replica);
+    res.status(200).send( result );
+});
+
+app.get('/showHoldingPattern', (req, res) => {
+    res.status(200).send( app.database.ShowHoldingPattern());
 });
 
 app.get('/replicationErrorLog', (req, res) => {
-    const {role} = app.database.getState();
-    if( role === 'Leader'){
-        res.status(200).send( app.database.ReplicationErrorLog());
-    }
-    else{
-        res.status(200).send( 'See replication errors on the Leader.');
-    }
+    res.status(200).send( app.database.ReplicationErrorLog());
 });
 
 module.exports = app;
